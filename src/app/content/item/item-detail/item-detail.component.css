@@ -1,0 +1,124 @@
+.float-right {
+  float: right;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.info-textarea {
+  height: calc(0.5rem + 4px + 2em);
+}
+
+.info-desc {
+  height: 5rem;
+}
+
+.row-margin {
+  margin: 10px 0;
+}
+
+.logout {
+  cursor: pointer;
+}
+
+.pad-bottom {
+  margin-bottom: 6px;
+}
+
+.content-container {
+  display: flex;
+}
+
+.section-header {
+  font-family: "MontserratB", sans-serif;
+  font-size: 30px;
+  margin-bottom: 30px;
+}
+
+.content-type {
+  font-family: "MontserratM", sans-serif;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.content-icon {
+  position: relative;
+  background: #f6f6f6;
+  border-radius: 5px;
+  box-shadow: 0 0 6px #d6d6d6;
+  margin-top: 10px;
+}
+
+.main-graphic {
+  width: 150px;
+  height: 200px;
+}
+
+.secondary-graphic {
+  width: 150px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modify-img-btn {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+}
+
+.modify-img-btn img {
+  width: 30px;
+  height: auto;
+}
+
+.modify-img-btn:hover, .new-img-btn:hover {
+  cursor: pointer;
+}
+
+.image-input {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.multi-content {
+  margin-right: 50px;
+}
+
+.content {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 20px;
+}
+
+.main-header {
+  position: relative;
+  display: flex;
+}
+
+.save-btn {
+  position: absolute;
+  right: 50px;
+  top: -20px;
+}
+
+.new-tag-btn {
+  margin: 0;
+  float: right;
+}
+
+.img-container-parent {
+  overflow: auto;
+  height: 82vh;
+}
+
+clr-select-container {
+  margin-top: 0;
+  margin-bottom: 0.3rem;
+}

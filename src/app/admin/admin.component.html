@@ -1,0 +1,25 @@
+<clr-header>
+  <div class="branding">
+    <a href="/admin" class="nav-link">
+      <img id="branding-logo" src="assets/icons/logo.svg"/>
+      <!-- <clr-icon shape="vm-bug"></clr-icon> -->
+      <span id="logo" class="title">YOMP</span>
+    </a>
+  </div>
+  <div class="header-nav">
+    <a class="nav-link" routerLinkActive="active"><span class="nav-text" routerLink="content">Content</span></a>
+    <a class="nav-link" routerLinkActive="active"><span class="nav-text" routerLink="user">User</span></a>
+  </div>
+  <div class="header-actions">
+    <clr-dropdown>
+      <button class="nav-text" clrDropdownTrigger aria-label="open user profile">
+        {{ (authService.user | async)?.email }}
+        <clr-icon shape="caret down"></clr-icon>
+      </button>
+      <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+        <a clrDropdownItem (click)="logOut()">Log out</a>
+      </clr-dropdown-menu>
+    </clr-dropdown>
+  </div>
+</clr-header>
+<router-outlet></router-outlet>

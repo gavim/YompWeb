@@ -1,0 +1,98 @@
+<div class="content-container">
+  <nav class="sidenav">
+    <section class="sidenav-content">
+      <div class="nav-link">
+        <app-searchbox (inputChanged)="searchUpdate($event)" size="20"></app-searchbox>
+        <button type="button" class="btn btn-icon new-item-btn" (click)="createNewBrand()">
+          <clr-icon shape="plus"></clr-icon>
+        </button>
+      </div>
+      <ng-container *ngFor="let brand of brands | async | keyvalue">
+        <a class="nav-link brand-link"
+           routerLink="/admin/content/brand/{{brand.key}}" routerLinkActive="active"
+           (click)="brandSelected(brand.key)"
+           *ngIf="brand.value | filter: query:'title'">{{brand.value.title}}</a>
+      </ng-container>
+    </section>
+  </nav>
+
+  <div class="content-area">
+    <div class="clr-col-6">
+      <form [formGroup]="brandInfoForm" class="unpad">
+        <div class="clr-row clr-justify-content-between">
+          <div class="clr-col">
+            <label>BRAND INFO</label>
+          </div>
+          <div class="clr-col">
+            <button type="button" class="btn btn-black btn-sm float-right" [disabled]="imgUploadCnt != 0"
+                    (click)="submit()">
+              SAVE CHANGES
+            </button>
+          </div>
+        </div>
+        <div class="clr-row">
+          <div class="clr-col">
+            <div class="clr-row row-margin">
+              <div class="clr-control-container full-width">
+              <textarea placeholder="BRAND TITLE" class="clr-textarea info-textarea full-width" type="text"
+                        size="60" formControlName="title" maxlength="50"></textarea>
+              </div>
+            </div>
+            <div class="clr-row row-margin">
+              <div class="clr-control-container full-width">
+              <textarea placeholder="NOTE" class="clr-textarea info-textarea full-width info-desc" type="text"
+                        size="100" formControlName="note" maxlength="300"></textarea>
+              </div>
+            </div>
+            <div class="clr-row row-margin">
+              <div>
+                <div class="secondary-graphic content-icon">
+                  <img class="content" *ngIf="bannerImageUrl" [src]="bannerImageUrl">
+                  <label for="modify-img-btn-banner" class="modify-img-btn">
+                    <clr-icon shape="sync" size="24"></clr-icon>
+                  </label>
+                  <input id="modify-img-btn-banner" class="image-input" type="file"
+                         (change)="imgSelected($event, 'bannerImageUrl')">
+                </div>
+                <div class="content-type">BANNER</div>
+              </div>
+              <div class="multi-content">
+                <div class="logo-graphic content-icon">
+                  <img class="content" *ngIf="logoImageUrl" [src]="logoImageUrl">
+                  <label for="modify-img-btn-logo" class="modify-img-btn">
+                    <clr-icon shape="sync" size="24"></clr-icon>
+                  </label>
+                  <input id="modify-img-btn-logo" class="image-input" type="file"
+                         (change)="imgSelected($event, 'logoImageUrl')">
+                </div>
+                <div class="content-type">LOGO</div>
+              </div>
+            </div>
+
+            <div class="clr-row row-margin">
+              <button type="button" class="btn btn-sec-black" (click)="cancel()">CANCEL</button>
+              <button *ngIf="curBrandId !== '-1'" type="button" class="btn btn-warning"
+                      (click)="showDeleteConfirmModal = true; confirmDeleteInput.value = ''">DELETE BRAND
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <clr-modal [(clrModalOpen)]="showDeleteConfirmModal" [clrModalClosable]="true" [clrModalStaticBackdrop]="false">
+      <h3 class="modal-title">Delete {{(curBrand | async)?.title}}?</h3>
+      <div class="modal-body">
+        <p>Type "delete" in the following field to continue.</p>
+        <input #confirmDeleteInput type="text" id="type-delete-to-confirm">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sec-black" (click)="showDeleteConfirmModal = false">Cancel</button>
+        <button type="button" class="btn btn-danger"
+                [disabled]="confirmDeleteInput.value != 'delete'"
+                (click)="onDeleteBrand()">Delete
+        </button>
+      </div>
+    </clr-modal>
+  </div>
+</div>

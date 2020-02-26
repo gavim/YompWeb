@@ -3,7 +3,17 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  name: 'yompWeb-Test',
+  firebase: {
+    apiKey: 'AIzaSyCRj7F32Y7CgdA02J-vKWH_lB4p8x29cIY',
+    authDomain: 'mylive-webtest.firebaseapp.com',
+    databaseURL: 'https://mylive-webtest.firebaseio.com',
+    projectId: 'mylive-webtest',
+    storageBucket: 'mylive-webtest.appspot.com',
+    messagingSenderId: '422178994969',
+    appId: '1:422178994969:web:e3b958c0f52edfd60ee388'
+  }
 };
 
 /*

@@ -1,0 +1,13 @@
+.header {
+  background-color: #2F2E2E;
+}
+
+#branding-logo {
+  height: 2em;
+  margin-right: 1em;
+}
+
+#logo {
+  font-family: MontserratEBI, sans-serif;
+  color: white;
+}

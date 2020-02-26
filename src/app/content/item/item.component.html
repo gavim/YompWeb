@@ -1,0 +1,12 @@
+<div class="content-container">
+  <div class="content-area">
+    <div class="clr-row clr-justify-content-between">
+      <div [ngClass]="{'clr-col-sm-12': !showItemDetail, 'clr-col-sm-5': showItemDetail}">
+        <app-item-list (itemSelected)="onItemSelected($event)" [shrink]="showItemDetail"></app-item-list>
+      </div>
+      <div class="clr-col-sm-6 clr-offset-1" *ngIf="showItemDetail">
+        <app-item-detail [itemId]="currentItemId" (hideDetail)="showItemDetail = false"></app-item-detail>
+      </div>
+    </div>
+  </div>
+</div>

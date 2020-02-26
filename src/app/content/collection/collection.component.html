@@ -1,0 +1,129 @@
+<div class="content-container">
+  <nav class="sidenav">
+    <section class="sidenav-content">
+      <div class="nav-link">
+        <app-searchbox (inputChanged)="searchUpdate($event)" size="20"></app-searchbox>
+        <button type="button" class="btn btn-icon new-item-btn" (click)="createNewCollection()">
+          <clr-icon shape="plus"></clr-icon>
+        </button>
+      </div>
+      <ng-container *ngFor="let collection of collections | async | keyvalue">
+        <a class="nav-link collection-link"
+           routerLink="/admin/content/collection/{{collection.key}}" routerLinkActive="active"
+           (click)="collectionSelected(collection.key)"
+           *ngIf="collection.value | filter: query:'title'">{{collection.value.title}}</a>
+      </ng-container>
+    </section>
+  </nav>
+
+  <div class="content-area">
+    <div class="clr-row">
+      <div class="clr-col-sm-6">
+        <form [formGroup]="collectionInfoForm" class="unpad">
+          <div class="clr-row clr-justify-content-between">
+            <div class="clr-col">
+              <label>COLLECTION INFO</label>
+            </div>
+            <div class="clr-col">
+              <button type="button" class="btn btn-black btn-sm float-right" [disabled]="imgUploadCnt != 0"
+                      (click)="submit()">
+                SAVE CHANGES
+              </button>
+            </div>
+          </div>
+          <div class="clr-row">
+            <div class="clr-col">
+              <div class="clr-row row-margin">
+                <div class="clr-control-container full-width">
+              <textarea placeholder="COLLECTION TITLE" class="clr-textarea info-textarea full-width" type="text"
+                        size="60" formControlName="title" maxlength="50"></textarea>
+                </div>
+              </div>
+              <div class="clr-row row-margin">
+                <div class="clr-control-container full-width">
+              <textarea placeholder="NOTE" class="clr-textarea info-textarea full-width info-desc" type="text"
+                        size="100" formControlName="note" maxlength="300"></textarea>
+                </div>
+              </div>
+              <div class="clr-row">
+                <div class="clr-col-4">
+                  <div><label>FEATURED</label></div>
+                  <clr-toggle-wrapper>
+                    <input type="checkbox" clrToggle name="featured" id="featured" formControlName="featured">
+                  </clr-toggle-wrapper>
+                </div>
+                <div class="clr-col-5">
+                  <label>RANKING</label>
+                  <textarea class="clr-textarea info-textarea" type="number" size="100" formControlName="rank"
+                            maxlength="5"></textarea>
+                </div>
+              </div>
+              <div class="clr-row row-margin">
+                <div class="graphic-container">
+                  <div class="main-graphic content-icon">
+                    <img class="content" *ngIf="feedImageUrl" [src]="feedImageUrl">
+                    <label for="modify-img-btn-home" class="modify-img-btn">
+                      <clr-icon shape="sync" size="24"></clr-icon>
+                    </label>
+                    <input id="modify-img-btn-home" class="image-input" type="file"
+                           (change)="imgSelected($event, 'feedImageUrl')">
+                  </div>
+                  <div class="content-type">HOME</div>
+                </div>
+                <div class="multi-content">
+                  <div class="secondary-graphic content-icon">
+                    <img class="content" *ngIf="bannerImageUrl" [src]="bannerImageUrl">
+                    <label for="modify-img-btn-banner" class="modify-img-btn">
+                      <clr-icon shape="sync" size="24"></clr-icon>
+                    </label>
+                    <input id="modify-img-btn-banner" class="image-input" type="file"
+                           (change)="imgSelected($event, 'bannerImageUrl')">
+                  </div>
+                  <div class="content-type">BANNER</div>
+                </div>
+                <div class="multi-content">
+                  <div class="logo-graphic content-icon">
+                    <img class="content" *ngIf="logoImageUrl" [src]="logoImageUrl">
+                    <label for="modify-img-btn-logo" class="modify-img-btn">
+                      <clr-icon shape="sync" size="24"></clr-icon>
+                    </label>
+                    <input id="modify-img-btn-logo" class="image-input" type="file"
+                           (change)="imgSelected($event, 'logoImageUrl')">
+                  </div>
+                  <div class="content-type">LOGO</div>
+                </div>
+              </div>
+
+              <div class="clr-row row-margin">
+                <button type="button" class="btn btn-sec-black" (click)="cancel()">CANCEL</button>
+                <button *ngIf="curCollectionId !== '-1'" type="button" class="btn btn-warning"
+                        (click)="showDeleteConfirmModal = true; confirmDeleteInput.value = ''">DELETE COLLECTION
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="clr-col-sm-5 clr-offset-1">
+        <app-item-list-select [selectedItems]="items"
+                              (itemChanged)="selectedItemChanged($event)"></app-item-list-select>
+      </div>
+    </div>
+
+    <clr-modal [(clrModalOpen)]="showDeleteConfirmModal" [clrModalClosable]="true" [clrModalStaticBackdrop]="false">
+      <h3 class="modal-title">Delete {{(curCollection | async)?.title}}?</h3>
+      <div class="modal-body">
+        <p>Type "delete" in the following field to continue.</p>
+        <input #confirmDeleteInput type="text" id="type-delete-to-confirm">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sec-black" (click)="showDeleteConfirmModal = false">Cancel</button>
+        <button type="button" class="btn btn-danger"
+                [disabled]="confirmDeleteInput.value != 'delete'"
+                (click)="onDeleteCollection()">Delete
+        </button>
+      </div>
+    </clr-modal>
+  </div>
+</div>

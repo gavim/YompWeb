@@ -1,0 +1,21 @@
+<div class="clr-control-container">
+  <div class="clr-input-wrapper">
+    <div class="clr-input-group" [ngClass]="{ 'clr-focus': focusSearchBar }">
+      <clr-icon shape="search"></clr-icon>
+      <input type="search"
+             name="search"
+             [(ngModel)]="query"
+             (ngModelChange)="updateSearch($event)"
+             id="search-group"
+             size="{{size}}"
+             placeholder="{{placeholder}}"
+             class="clr-input"
+             (focus)="focusSearchBar = true"
+             (blur)="focusSearchBar = false">
+<!--      <clr-icon shape="times-circle"-->
+<!--                (click)="query = ''"-->
+<!--                [ngClass]="{'clr-input-group-icon-action-edit': query.length}">-->
+<!--      </clr-icon>-->
+    </div>
+  </div>
+</div>

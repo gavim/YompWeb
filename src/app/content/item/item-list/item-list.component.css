@@ -1,0 +1,35 @@
+.new-item-btn {
+  margin: 0;
+  height: 26px;
+  width: 26px;
+}
+
+.new-item-btn clr-icon {
+  transform: translate3d(-8px, -7px, 0);
+}
+
+.card-list-parent {
+  overflow: auto;
+  height: 83vh;
+}
+
+.card-list {
+  min-height: min-content;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.card-list .card-in-list {
+  flex-basis: 15%;
+  margin-right: 10px;
+}
+
+.card-list .card-in-list-shrink {
+  flex-basis: 23%;
+  margin-right: 2px;
+}
+
+.card-list .item-card-title {
+  text-align: center;
+}

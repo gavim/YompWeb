@@ -1,0 +1,148 @@
+<form [formGroup]="itemInfoForm" class="unpad">
+  <div class="clr-row clr-justify-content-between">
+    <div class="clr-col">
+      <label>ITEM INFO</label>
+    </div>
+    <div class="clr-col">
+      <button type="button" class="btn btn-black btn-sm float-right" [disabled]="imgUploadCnt != 0" (click)="submit()">
+        SAVE CHANGES
+      </button>
+    </div>
+  </div>
+  <div class="clr-row">
+    <div class="clr-col-7">
+      <div class="clr-row row-margin">
+        <div class="clr-control-container full-width">
+          <textarea placeholder="ITEM TITLE" class="clr-textarea info-textarea full-width" type="text" size="60"
+                    formControlName="title" maxlength="50"></textarea>
+        </div>
+      </div>
+      <div class="clr-row row-margin">
+        <div class="clr-control-container full-width">
+          <textarea placeholder="PRICE" class="clr-textarea info-textarea full-width" type="number" size="60"
+                    formControlName="price" maxlength="50"></textarea>
+        </div>
+      </div>
+      <div class="clr-row row-margin">
+        <div class="clr-control-container full-width">
+          <textarea placeholder="URL" class="clr-textarea info-textarea full-width" type="text" size="60"
+                    formControlName="url" maxlength="300"></textarea>
+        </div>
+      </div>
+      <div class="clr-row row-margin">
+        <div class="clr-control-container full-width">
+          <textarea placeholder="NOTE" class="clr-textarea info-textarea full-width info-desc" type="text" size="100"
+                    formControlName="note" maxlength="300"></textarea>
+        </div>
+      </div>
+      <div class="clr-row row-margin">
+        <div class="clr-control-container full-width">
+          <clr-select-container class="clr-textarea info-textarea full-width">
+            <select clrSelect name="brand-options" formControlName="brandId" style="border: 0">
+              <option value="" selected disabled hidden>BRAND</option>
+              <option *ngFor="let brand of dbBrands | async | keyvalue" value="{{brand.key}}">
+                {{brand.value.title}}
+              </option>
+            </select>
+          </clr-select-container>
+        </div>
+      </div>
+      <div class="clr-row row-margin">
+        <div class="clr-control-container full-width">
+          <clr-select-container class="clr-textarea info-textarea full-width">
+            <select clrSelect name="options" formControlName="collectionId" style="border: 0">
+              <option value="" selected disabled hidden>COLLECTION</option>
+              <option *ngFor="let collection of dbCollections | async | keyvalue" value="{{collection.key}}">
+                {{collection.value.title}}
+              </option>
+            </select>
+          </clr-select-container>
+        </div>
+      </div>
+      <div class="clr-row">
+        <div class="clr-col-4">
+          <div><label>FEATURED</label></div>
+          <clr-toggle-wrapper>
+            <input type="checkbox" clrToggle name="featured" id="featured" formControlName="featured">
+          </clr-toggle-wrapper>
+        </div>
+        <div class="clr-col-5">
+          <label>RANKING</label>
+          <textarea class="clr-textarea info-textarea" type="number" size="100" formControlName="rank"
+                    maxlength="5"></textarea>
+        </div>
+      </div>
+      <div class="clr-row row-margin">
+        <div class="clr-control-container full-width">
+          <clr-checkbox-container clrInline>
+            <label class="full-width">
+              <span>TAG</span>
+              <a class="btn btn-sm new-tag-btn" (click)="showNewTagModal = true">ADD TAG</a>
+            </label>
+            <clr-checkbox-wrapper *ngFor="let dbTag of dbTags | async; index as tagIndex">
+              <input type="checkbox" clrCheckbox name="{{dbTag}}" [ngModel]="tagArray[tagIndex] === '1'"
+                     (ngModelChange)="onTagChanged($event, tagIndex)"
+                     [ngModelOptions]="{standalone: true}"/>
+              <label>{{dbTag}}</label>
+            </clr-checkbox-wrapper>
+            <clr-control-helper>Please select the tags you want to associate this itme to</clr-control-helper>
+          </clr-checkbox-container>
+        </div>
+      </div>
+      <div class="clr-row row-margin">
+        <button type="button" class="btn btn-sec-black" (click)="cancel()">CANCEL</button>
+        <button *ngIf="itemId !== '-1'" type="button" class="btn btn-warning"
+                (click)="showDeleteConfirmModal = true; confirmDeleteInput.value = ''">DELETE ITEM
+        </button>
+      </div>
+    </div>
+    <div class="clr-col-4 clr-offset-1 img-container-parent">
+      <div class="clr-row" *ngFor="let imgUrl of imageUrl; index as imgIndex">
+        <div class="graphic-container">
+          <div class="main-graphic content-icon">
+            <img class="content" [src]="imgUrl">
+            <label for="modify-img-btn{{imgIndex}}" class="modify-img-btn">
+              <clr-icon shape="sync" size="24"></clr-icon>
+            </label>
+            <input id="modify-img-btn{{imgIndex}}" class="image-input" type="file"
+                   (change)="imgSelected($event, 'imageUrl', imgIndex)">
+          </div>
+        </div>
+      </div>
+      <div class="clr-row">
+        <div class="graphic-container">
+          <div class="content-icon secondary-graphic">
+            <label for="add-img-btn" class="new-img-btn">
+              <clr-icon shape="plus-circle" class="is-solid" size="36"></clr-icon>
+            </label>
+            <input id="add-img-btn" class="image-input" type="file" (change)="imgSelected($event, 'imageUrl', -1)">
+          </div>
+          <div class="content-type">ADD A PICTURE</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <clr-modal [(clrModalOpen)]="showNewTagModal" [clrModalClosable]="true" [clrModalStaticBackdrop]="false">
+    <h3 class="modal-title">Add a new tag</h3>
+    <div class="modal-body">
+      <input #newTagName type="text">
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-black" (click)="onAddNewTag(newTagName)">Add</button>
+    </div>
+  </clr-modal>
+</form>
+<clr-modal [(clrModalOpen)]="showDeleteConfirmModal" [clrModalClosable]="true" [clrModalStaticBackdrop]="false">
+  <h3 class="modal-title">Delete {{(curItem | async)?.title}}?</h3>
+  <div class="modal-body">
+    <p>Type "delete" in the following field to continue.</p>
+    <input #confirmDeleteInput type="text" id="type-delete-to-confirm">
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-sec-black" (click)="showDeleteConfirmModal = false">Cancel</button>
+    <button type="button" class="btn btn-danger"
+            [disabled]="confirmDeleteInput.value != 'delete'"
+            (click)="onDeleteItem()">Delete
+    </button>
+  </div>
+</clr-modal>

@@ -1,0 +1,23 @@
+<div class="login-wrapper">
+  <form class="login" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <section class="title">
+      <h3 class="welcome">Welcome to</h3>
+      YOMP
+      <h5 class="hint">Use your Email and Password to sign in</h5>
+    </section>
+    <div class="login-group">
+      <clr-input-container>
+        <label class="clr-sr-only">Email</label>
+        <input type="text" name="email" clrInput placeholder="Email" formControlName="email"/>
+      </clr-input-container>
+      <clr-password-container>
+        <label class="clr-sr-only">Password</label>
+        <input type="password" name="password" clrPassword placeholder="Password" formControlName="password"/>
+      </clr-password-container>
+      <div class="error active" *ngIf="logInFailed">
+        Invalid email or password
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">NEXT</button>
+    </div>
+  </form>
+</div>

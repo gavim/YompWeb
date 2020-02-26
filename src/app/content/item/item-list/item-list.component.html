@@ -1,0 +1,28 @@
+<div>
+  <app-searchbox (inputChanged)="searchUpdate($event)" size="25"></app-searchbox>
+  <button type="button" class="btn btn-icon new-item-btn" (click)="createNewItem()">
+    <clr-icon shape="plus"></clr-icon>
+  </button>
+</div>
+
+<div>
+  <div class="card-list-parent">
+    <div class="card-list">
+      <ng-container *ngFor="let item of items | async | keyvalue">
+        <div class="card clickable"
+             [ngClass]="{ 'card-in-list': !shrink, 'card-in-list-shrink': shrink }"
+             (click)="editSelectedItem(item.key)"
+             *ngIf="item.value | filter: query:'title'">
+          <div class="card-img">
+            <img src="{{item.value.imageUrl[0]}}" alt="{{item.value.title}} picture"/>
+          </div>
+          <div class="card-block">
+            <div class="item-card-title">
+              {{item.value.title}}
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
